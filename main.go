@@ -50,7 +50,7 @@ func main() {
 		dir := strings.TrimSpace(split[i])
 		// Assuming there's a bash script named "script.sh" in each directory,
 		// we create a command to run that script.
-		cmd := exec.Command("bash", "script.sh")
+		cmd := exec.Command("bash", "~/Projects/script.sh")
 		// Set the command's working directory.
 		cmd.Dir = dir
 
