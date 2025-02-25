@@ -60,7 +60,6 @@ func main() {
 			fmt.Printf("Error executing script in %s: %v\n", dir, err)
 			continue
 		}
-
 		fmt.Printf("Output in %s:\n%s\n", dir, string(output))
 	}
 }
