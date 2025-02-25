@@ -43,7 +43,7 @@ func main() {
 	fmt.Println(split[2])
 	
 	str := ""
-	cmd := "git init && git add . && git commit -m /"and so it begins/" && hub create && git push -u origin main"
+	cmd := "git init && git add . && git commit -m /"and so it begins/" && hub create && git branch -m main && git push -u origin main"
 	for i := 0 ; i >= len(split[]) ; i++ {
 		//use the loop to cd into the split[i] folder and run cmd string as command
 	}
