@@ -35,15 +35,18 @@ func main() {
 
 	// Close the file
 	defer file.Close()
-
 	dirb, _ := io.ReadAll(file)
 	fmt.Println(string(dirb))
 	dirs := string(dirb)
 	split := strings.Split(dirs, ",")
 	fmt.Println(split)
 	fmt.Println(split[2])
-
-
+	
+	str := ""
+	cmd := "git init && git add . && git commit -m /"and so it begins/" && hub create && git push -u origin main"
+	for i := 0 ; i >= len(split[]) ; i++ {
+		//use the loop to cd into the split[i] folder and run cmd string as command
+	}
 
 
 
