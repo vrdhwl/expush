@@ -16,7 +16,6 @@ func main() {
 		return
 	}
 
-	// Build the path to the file containing directory strings.
 	dilipa := filepath.Join(home, "Projects", "dir.txt")
 
 	// Open the file for reading.
