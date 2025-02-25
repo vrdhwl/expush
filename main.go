@@ -44,14 +44,15 @@ func main() {
 		fmt.Println("Third directory:", strings.TrimSpace(split[2]))
 	}
 
+	scriptPath := filepath.Join(home, "Projects", "git.sh")
+	
 	// Loop through each directory in the slice.
 	for i := 0; i < len(split); i++ {
 		// Clean up the directory string.
 		dir := strings.TrimSpace(split[i])
-		// Assuming there's a bash script named "script.sh" in each directory,
-		// we create a command to run that script.
-		cmd := exec.Command("bash", "~/Projects/script.sh")
-		// Set the command's working directory.
+		// Create a command to run the script.
+		cmd := exec.Command("bash", scriptPath)
+		// Set the command's working directory to the directory from the file.
 		cmd.Dir = dir
 
 		// Execute the command and capture the combined output (stdout and stderr).
