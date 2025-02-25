@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"path/filepath"
 	"io"
+	"os"
+	"os/exec"
+	"path/filepath"
 	"strings"
 )
 
@@ -15,40 +16,51 @@ func main() {
 		return
 	}
 
+	// Build the path to the file containing directory strings.
 	dilipa := filepath.Join(home, "Projects", "dir.txt")
 
-	// Create the file
-	file, err := os.OpenFile(dilipa, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		fmt.Println("Error creating file:", err)
-		return
-	}
-	file.Close() // Close after creation
-
-	// Open the file (FIXED VARIABLE NAME)
-	file, err = os.Open(dilipa)
+	// Open the file for reading.
+	file, err := os.Open(dilipa)
 	if err != nil {
 		fmt.Println("Error opening file:", err)
 		return
 	}
-	fmt.Println("File opened successfully:", file.Name())
-
-	// Close the file
 	defer file.Close()
-	dirb, _ := io.ReadAll(file)
-	fmt.Println(string(dirb))
-	dirs := string(dirb)
-	split := strings.Split(dirs, ",")
-	fmt.Println(split)
-	fmt.Println(split[2])
+
+	// Read file contents.
+	dirb, err := io.ReadAll(file)
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		return
+	}
 	
-	str := ""
-	cmd := "git init && git add . && git commit -m /"and so it begins/" && hub create && git branch -m main && git push -u origin main"
-	for i := 0 ; i >= len(split[]) ; i++ {
-		//use the loop to cd into the split[i] folder and run cmd string as command
+	dirs := strings.TrimSpace(string(dirb))
+	// Split the string into a slice using commas.
+	split := strings.Split(dirs, ",")
+	fmt.Println("Directories:", split)
+
+	// Access a specific element (e.g., the third one, if it exists).
+	if len(split) > 2 {
+		fmt.Println("Third directory:", strings.TrimSpace(split[2]))
 	}
 
+	// Loop through each directory in the slice.
+	for i := 0; i < len(split); i++ {
+		// Clean up the directory string.
+		dir := strings.TrimSpace(split[i])
+		// Assuming there's a bash script named "script.sh" in each directory,
+		// we create a command to run that script.
+		cmd := exec.Command("bash", "script.sh")
+		// Set the command's working directory.
+		cmd.Dir = dir
 
-
+		// Execute the command and capture the combined output (stdout and stderr).
+		output, err := cmd.CombinedOutput()
+		if err != nil {
+			fmt.Printf("Error executing script in %s: %v\n", dir, err)
+			continue
+		}
+		fmt.Printf("Output in %s:\n%s\n", dir, string(output))
+	}
 }
 

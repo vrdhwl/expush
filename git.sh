@@ -1,6 +1,7 @@
 #!/bin/bash
 # git.sh - A script to initialize a repository, commit changes, and push to GitHub using hub,
-# while sending notifications using notify-send.
+# while sending notifications via notify-send and setting the remote URL to use HTTPS
+# with the current directory name as the repo name.
 
 # Check if hub is installed.
 if ! command -v hub &> /dev/null; then
@@ -49,6 +50,18 @@ if [ $? -ne 0 ]; then
 else
     notify-send "Repository Created" "$create_output"
 fi
+# Set remote URL to HTTPS with the current directory name as repository name.
+current_dir=$(basename "$(pwd)")
+notify-send current_dir
+new_remote_url="https://github.com/vrdhwl/${current_dir}.git"
+notify-send "Setting Remote URL" "Setting remote URL to ${new_remote_url}"
+git remote set-url origin "${new_remote_url}"
+if [ $? -ne 0 ]; then
+    notify-send "Error" "Failed to set remote URL."
+    exit 1
+fi
+
+notify-send "Done" "Repository setup complete."
 
 # Rename the current branch to 'main'.
 notify-send "Renaming Branch" "Running: hub branch -M main"
@@ -68,5 +81,4 @@ else
     notify-send "Push Complete" "$push_output"
 fi
 
-notify-send "Done" "Repository setup complete."
 
