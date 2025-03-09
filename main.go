@@ -25,14 +25,13 @@ func main() {
 		return
 	}
 	defer file.Close()
-
 	// Read file contents.
 	dirb, err := io.ReadAll(file)
 	if err != nil {
 		fmt.Println("Error reading file:", err)
 		return
 	}
-	
+
 	dirs := strings.TrimSpace(string(dirb))
 	// Split the string into a slice using commas.
 	split := strings.Split(dirs, ",")
@@ -44,7 +43,7 @@ func main() {
 	}
 
 	scriptPath := filepath.Join(home, "Projects", "git.sh")
-	
+
 	// Loop through each directory in the slice.
 	for i := 0; i < len(split); i++ {
 		// Clean up the directory string.
@@ -63,4 +62,3 @@ func main() {
 		fmt.Printf("Output in %s:\n%s\n", dir, string(output))
 	}
 }
-
